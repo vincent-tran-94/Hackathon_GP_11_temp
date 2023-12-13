@@ -2,10 +2,5 @@ data/adaptor.mars.internal.nc
 data/2023_adaptor.mars.internal.nc
 data/*._adaptor.mars.internal.nc
 data/1940_adaptor.mars.internal.nc
-data/coordonnees.csv
-data/nouvelles_coordonnees.csv
-data/temp.csv
-visualisation/1940_temperature.png
-visualisation/2023_temperature.png
-visualisation/first_compare_visualisation.png
-visualisation/first_visualisation.png
+
+
