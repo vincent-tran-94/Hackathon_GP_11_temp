@@ -20,6 +20,16 @@ North = 60
 West = -108
 East = -20
 South = -90 
+
+Paris: 
+North = 51.75
+West = -5.75 
+East = 9.75
+South = 43.75
+
+#Points long et lat 
+point_lat = np.arange(28, 19.75, -0.25)
+point_long = np.arange(-364, -19.25, 0.25)
 """
 
 #Points latittude et longitude à relever pour une zone géographique
@@ -27,7 +37,7 @@ point_lat = np.arange(60, 19.75, -0.25)
 point_long = np.arange(-108, -19.75, 0.25)
 
 # Chemin des fichiers
-chemin_fichier_nc = 'data/1940_adaptor.mars.internal.nc'
+chemin_fichier_nc = 'data/2023_adaptor.mars.internal.nc'
 path_to_csv = "./data" 
 filename_csv = "temp.csv"
 fichier_lat_long_csv = 'data/coordonnees.csv'
@@ -82,7 +92,13 @@ def generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000):
 def temperature_moy_500(year):
     df = generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)
     mean_temp_500 = df["Température à 500hPa (K)"].mean()
-    return f"Temperature moyenne sur 500 hPa en {year}: {mean_temp_500}"
+    return f"Temperature moyenne sur 500 hPa en {year}: {round(mean_temp_500,2)} K"
+
+def temperature_moy_1000(year):
+    df = generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)
+    mean_temp_1000 = df["Température à 1000hPa (K)"].mean()
+    return f"Temperature moyenne sur 1000 hPa en {year}: {round(mean_temp_1000,2)} K"
+
 
 def write_lat_long_to_csv(path_to_csv): 
     # Écriture des données de latitude et de longitude dans un même fichier CSV
@@ -100,12 +116,16 @@ def convert_dataframe_to_csv(path,filename):
 #Fonction de visualisation des données sur la température de l'atsmophère en fonction du temps
 def visualize_temp(year):
     df = generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)
+    temp_500 = temperature_moy_500(year)
+    temp_1000 = temperature_moy_1000(year)
     Title = f"Analyse des températures [K] atmosphériques sur l'année {year}"
     fig, ax = plt.subplots(figsize=(11.69,8.27))
     plt.grid(linestyle="-",linewidth=1.0)
     fig.suptitle(Title,fontsize=20,weight='bold')
     ax.plot(df.index,df["{}".format(df.columns[0])],color="blue",label='Pression atmosphérique= 500hPa')
     ax.plot(df.index,df["{}".format(df.columns[1])],color="red",label='Pression atmosphérique= 1000hPa')
+    ax.plot([], [],color="blue",label=f"{temp_500}")
+    ax.plot([], [],color="red",label=f"{temp_1000}")
     ax.set_xlabel("Timezone: US/Eastern", fontsize = 16) 
     ax.set_ylabel(f"Temperature [{unitt}]",fontsize = 16)
     ax.xaxis.set_tick_params(labelsize=12) 
@@ -124,6 +144,6 @@ def show_visualise():
 #write_lat_long_to_csv(fichier_lat_long_csv)
 #convert_dataframe_to_csv(path_to_csv,filename_csv)
 #print(temperature_moy_500(year[1]))
-visualize_temp(year[0])
+visualize_temp(year[1])
 #show_visualise()
 
