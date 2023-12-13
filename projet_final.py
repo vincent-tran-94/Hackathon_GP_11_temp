@@ -1,0 +1,129 @@
+from netCDF4 import Dataset
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np  
+import os
+import datetime
+import csv
+
+"""
+Installation de la librairie à requérir: 
+pip install netCDF4
+
+Optimisation des résultats:
+Jouer les différents données sur les zones lat et lont dans le site copernicus + les différents années et mois
+Essayer de trouver autres visualisations sans utiliser notre propre type de visualisation
+Gérer automatiquement les points lattitude et longitude pour un station en fonction de la zone géographique 
+
+Sub-region-extraction:
+North = 60
+West = -108
+East = -20
+South = -90 
+"""
+
+#Points latittude et longitude à relever pour une zone géographique
+point_lat = np.arange(60, 19.75, -0.25)
+point_long = np.arange(-108, -19.75, 0.25)
+
+# Chemin des fichiers
+chemin_fichier_nc = 'data/2023_adaptor.mars.internal.nc'
+path_to_csv = "./data" 
+filename_csv = "temp.csv"
+fichier_lat_long_csv = 'data/coordonnees.csv'
+
+# Lecture du dataset NetCDF
+data = Dataset(chemin_fichier_nc, 'r')
+
+#Import des variables de données 
+times = data.variables['time'][:]
+lat = data.variables['latitude'][:]
+lon = data.variables['longitude'][:]
+times_unit = data.variables['time'].units
+unitt = data.variables['t'].units
+temp = data.variables['t']
+year = ["1940","2023"]
+
+#Import les coordonnées de latitude et longitude 
+latitude = data['latitude'][:]
+longitude = data['longitude'][:]
+
+#Données sur les datetime à inialiser 
+ref_date = datetime.datetime(int(times_unit[12:16]),int(times_unit[17:19]),int(times_unit[20:22]))
+date_range = list() #Définir l'invervalle des dates de début et fin 
+
+#Données sur les températures en Kelvin 
+temp_data_500 = list()
+temp_data_1000 = list()
+
+#Calcul de distance entre le point de station vers l'observation de température  
+diff_lat = np.around((latitude - point_lat[:, None])**2,decimals=2) 
+diff_long = np.around((longitude - point_long[:, None])**2,decimals=2) 
+
+#Valeurs minimales des latitudes et de longitudes
+min_index_lat = diff_lat.argmin()
+min_index_lon = diff_long.argmin()
+
+#Fonction qui génère un dataframe
+def generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000):
+    for index, time, in enumerate(times):
+        date_time = ref_date + datetime.timedelta(hours=int(time))
+        date_range.append(date_time) 
+        temp_data_500.append(temp[index,0,min_index_lat,min_index_lon])
+        temp_data_1000.append(temp[index,1,min_index_lat,min_index_lon])
+    
+    df = pd.DataFrame(date_range,columns = ["Date-Time"])
+    df["Date-Time"] = date_range
+    df = df.set_index(["Date-Time"])
+    df["Température à 500hPa ({})".format(unitt)] = temp_data_500
+    df["Température à 1000hPa ({})".format(unitt)] = temp_data_1000
+    return df
+
+def temperature_moy_500(year):
+    df = generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)
+    mean_temp_500 = df["Température à 500hPa (K)"].mean()
+    return f"Temperature moyenne sur 500 hPa en {year}: {mean_temp_500}"
+
+def write_lat_long_to_csv(path_to_csv): 
+    # Écriture des données de latitude et de longitude dans un même fichier CSV
+    with open(path_to_csv, 'w', newline='') as file:
+        csv_writer = csv.writer(file)
+        csv_writer.writerow(['Latitude', 'Longitude'])
+        for lat, lon in zip(latitude, longitude):
+            csv_writer.writerow([lat, lon])
+
+#Fonction de conversion du dataframe vers le CSV 
+def convert_dataframe_to_csv(path,filename):
+    df = generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)
+    df.to_csv(os.path.join(path,filename),index=True)
+
+#Fonction de visualisation des données sur la température de l'atsmophère en fonction du temps
+def visualize_temp(year):
+    df = generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)
+    Title = f"Analyse des températures [K] atmosphériques sur l'année {year}"
+    fig, ax = plt.subplots(figsize=(11.69,8.27))
+    plt.grid(linestyle="-",linewidth=1.0)
+    fig.suptitle(Title,fontsize=20,weight='bold')
+    ax.plot(df.index,df["{}".format(df.columns[0])],color="blue",label='Pression atmosphérique= 500hPa')
+    ax.plot(df.index,df["{}".format(df.columns[1])],color="red",label='Pression atmosphérique= 1000hPa')
+    ax.set_xlabel("Timezone: US/Eastern", fontsize = 16) 
+    ax.set_ylabel(f"Temperature [{unitt}]",fontsize = 16)
+    ax.xaxis.set_tick_params(labelsize=12) 
+    ax.yaxis.set_tick_params(labelsize=14) 
+    fig.tight_layout()
+    plt.legend()
+    plt.savefig(f"visualisation/{year}_temperature.png")
+
+def show_visualise():
+    plt.show()
+
+    
+    
+
+#print(generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)) 
+#write_lat_long_to_csv(fichier_lat_long_csv)
+#convert_dataframe_to_csv(path_to_csv,filename_csv)
+print(temperature_moy_500(year[1]))
+#visualize_temp(year[1])
+#show_visualise()
+
