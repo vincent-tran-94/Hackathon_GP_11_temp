@@ -27,7 +27,7 @@ point_lat = np.arange(60, 19.75, -0.25)
 point_long = np.arange(-108, -19.75, 0.25)
 
 # Chemin des fichiers
-chemin_fichier_nc = 'data/2023_adaptor.mars.internal.nc'
+chemin_fichier_nc = 'data/1940_adaptor.mars.internal.nc'
 path_to_csv = "./data" 
 filename_csv = "temp.csv"
 fichier_lat_long_csv = 'data/coordonnees.csv'
@@ -123,7 +123,7 @@ def show_visualise():
 #print(generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)) 
 #write_lat_long_to_csv(fichier_lat_long_csv)
 #convert_dataframe_to_csv(path_to_csv,filename_csv)
-print(temperature_moy_500(year[1]))
-#visualize_temp(year[1])
+#print(temperature_moy_500(year[1]))
+visualize_temp(year[0])
 #show_visualise()
 
