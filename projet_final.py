@@ -20,16 +20,6 @@ North = 60
 West = -108
 East = -20
 South = -90 
-
-Paris: 
-North = 51.75
-West = -5.75 
-East = 9.75
-South = 43.75
-
-#Points long et lat 
-point_lat = np.arange(28, 19.75, -0.25)
-point_long = np.arange(-364, -19.25, 0.25)
 """
 
 #Points latittude et longitude à relever pour une zone géographique
