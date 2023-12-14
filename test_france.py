@@ -29,8 +29,8 @@ point_long = np.arange(19.25, 364, 0.25)
 # Chemin des fichiers
 chemin_fichier_nc = 'data/France_2.nc'
 path_to_csv = "./data" 
-filename_csv = "temp.csv"
-fichier_lat_long_csv = 'data/coordonnees.csv'
+filename_csv = "temp_france.csv"
+fichier_lat_long_csv = 'data/coordonnees_france.csv'
 
 # Lecture du dataset NetCDF
 data = Dataset(chemin_fichier_nc, 'r')
@@ -127,9 +127,9 @@ def show_visualise():
     plt.show()
 
 #print(generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)) 
-#write_lat_long_to_csv(fichier_lat_long_csv)
-#convert_dataframe_to_csv(path_to_csv,filename_csv)
+write_lat_long_to_csv(fichier_lat_long_csv)
+convert_dataframe_to_csv(path_to_csv,filename_csv)
 #print(temperature_moy_500())
-visualize_temp()
+#visualize_temp()
 #show_visualise()
 
