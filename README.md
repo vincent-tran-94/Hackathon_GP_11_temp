@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Projet Hackathon pour les observations des prévisions de la température atmosphérique
 
 Objectif principal:  Déterminer les observations sur les prévisions de température atmosphériques pour améliorer le sentinel 4 sur les mesures climatiques à travers le monde. <br>
