@@ -10,7 +10,7 @@ import csv
 Installation de la librairie à requérir: 
 pip install netCDF4
 
-Test de relevé de températures pour la zone Amérique du Nord pour les 3 années à relever pour l'année 2021 à 2023 entre le mois juin à Aout
+Test de relevé de températures pour la zone Amérique du Nord pour les 3 années pour l'année 2021 à 2023 entre le mois juin à Aout
 Test de relevé de températures la France pour les 3 années à relever pour l'année 2021 à 2023 entre le mois juin à Aout 
 
 Coordinates from North America: 
