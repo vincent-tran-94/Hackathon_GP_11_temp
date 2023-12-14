@@ -10,12 +10,20 @@ import csv
 Installation de la librairie à requérir: 
 pip install netCDF4
 
-Test pour la zone Amérique du Nord pour les 3 années à relever pour l'année 2021 à 2023 entre le mois juin à Aout 
-Sub-region-extraction for North America: 
+Test de relevé de températures pour la zone Amérique du Nord pour les 3 années à relever pour l'année 2021 à 2023 entre le mois juin à Aout
+Test de relevé de températures la France pour les 3 années à relever pour l'année 2021 à 2023 entre le mois juin à Aout 
+
+Coordinates from North America: 
 North = 60
 West = -108
 East = -20
 South = -90 
+
+Coordinates from France: 
+North = 51.75
+West = -5.75 
+East = 9.75
+South = 43.75
 """
 
 def generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000):
@@ -111,20 +119,20 @@ def show_visualise():
 
 #Points latittude et longitude à relever pour une zone géographique
 
-#Test des points de dimension pour l'Amerique du Nord
-#point_lat = np.arange(60, 19.75, -0.25) 
-#point_long = np.arange(-108, -19.75, 0.25)
+#Test des points de dimension pour l'Amerique du Nord 
+point_lat = np.arange(60, 19.75, -0.25) 
+point_long = np.arange(-108, -19.75, 0.25)
 
 #Test des points de dimension pour la France
-point_lat = np.arange(28, -19.75, -0.25) 
-point_long = np.arange(19.25, 364, 0.25)
+#point_lat = np.arange(28, -19.75, -0.25) 
+#point_long = np.arange(19.25, 364, 0.25)
 
 year = ["1940","2023"]
 
 # Chemin des fichiers
-#chemin_fichier_nc = f'data/{year[0]}_north_america.nc' #1940 pour Amérique du Nord
+chemin_fichier_nc = f'data/{year[0]}_north_america.nc' #1940 pour Amérique du Nord
 #chemin_fichier_nc = f'data/{year[1]}_north_america.nc' #2023 pour Amérique du Nord
-chemin_fichier_nc = 'data/France.nc'   #Pour la France entre 2021 à 2023 
+#chemin_fichier_nc = 'data/France.nc'   #Pour la France entre 2021 à 2023 
 
 path_to_csv = "./data" 
 filename_temp_csv = "temp.csv"
@@ -172,8 +180,8 @@ print(df)
 
 #Test de visualisations 
 
-#visualize_temp(year[0]) #Année 1940 en Amérique du Nord
+visualize_temp(year[0]) #Année 1940 en Amérique du Nord
 #visualize_temp(year[1]) #Annéee 2023 en Amérique du Nord
-visualize_temp_fr() #Année de 2021 à 2023 en France
+#visualize_temp_fr() #Année de 2021 à 2023 en France
 show_visualise() #Affichage de la visualisation 
 
