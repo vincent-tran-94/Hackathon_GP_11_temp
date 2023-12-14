@@ -127,9 +127,9 @@ def show_visualise():
     plt.show()
 
 #print(generate_dataframe(ref_date,date_range,temp_data_500,temp_data_1000)) 
-write_lat_long_to_csv(fichier_lat_long_csv)
-convert_dataframe_to_csv(path_to_csv,filename_csv)
+#write_lat_long_to_csv(fichier_lat_long_csv)
+#convert_dataframe_to_csv(path_to_csv,filename_csv)
 #print(temperature_moy_500())
-#visualize_temp()
+visualize_temp()
 #show_visualise()
 
