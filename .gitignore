@@ -3,5 +3,7 @@ data/2023_adaptor.mars.internal.nc
 data/*._adaptor.mars.internal.nc
 data/1940_adaptor.mars.internal.nc
 data/France.nc
-data/France_2.nc
 Projet_ARIMA_2023
+data/2023_north_america.nc
+data/1940_north_america.nc
+
